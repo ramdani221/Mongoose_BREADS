@@ -1,0 +1,148 @@
+<%- include('./partials/header') %>
+  <div class="container bg-light rounded-2 px-0 border border-light-subtle">
+
+    <h1 class="text-center p-3">MongoDB Breads(Browse,Read,Edit,Add,Delete,Sort)</h1>
+    <div class="pb-1 bg-white border-top border-bottom border-light-subtle">
+      <div class="px-4 text-center">
+        <div class="row gx-3">
+          <div class="col-3">
+            <div class="p-3 input-group">
+              <span class="input-group-text col-4">Show</span>
+              <select class="form-select d-inline-block col-4" onchange="Filter.setLimit()" id="limitation"
+                onaria-label="Default select example">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="0">all</option>
+              </select>
+              <span class="input-group-text col-4">entries</span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="p-3 input-group">
+              <input type="text" class="form-control" id="find" oninput="Filter.find()" placeholder="Search"
+                aria-label="Recipient's username with two button addons">
+              <button class="btn btn-outline-secondary rounded-2" type="button" onclick="Filter.find()"><i
+                  class="fa-solid fa-magnifying-glass"></i></button>
+              <button class="btn btn-outline-secondary border-warning rounded-2" onclick="Filter.clearFind()"><i
+                  class="fa-solid fa-rotate text-warning"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col position-relative">
+              <button type="button" class="btn p-0" id="btn-name" onclick="Sort.asc('name')">
+                <div class="d-inline-block position-relative" style="height: 10px;">
+                  <i class="fa-solid fa-caret-up position-absolute bottom-0 start-0 p-0"></i>
+                  <i class="fa-solid fa-caret-down position-absolute top-0 start-0 p-0"></i>
+                </div>
+                <span class="ms-3 fw-bold">Name</span>
+              </button>
+              <button type="button" class="btn p-0" id="btn-name-up" onclick="Sort.desc('name')">
+                <div class="d-inline-block position-relative" style="height: 10px;">
+                  <i class="fa-solid fa-caret-up position-absolute bottom-0 start-0 p-0"></i>
+                </div>
+                <span class="ms-3 fw-bold">Name</span>
+              </button>
+              <button type="button" class="btn p-0" id="btn-name-down" onclick="Sort.byId('name')">
+                <div class="d-inline-block position-relative" style="height: 10px;">
+                  <i class="fa-solid fa-caret-down position-absolute top-0 start-0 p-0"></i>
+                </div>
+                <span class="ms-3 fw-bold">Name</span>
+              </button>
+            </th>
+            <th scope="col">
+              <button type="button" class="btn p-0" id="btn-phone" onclick="Sort.asc('phone')">
+                <div class="d-inline-block position-relative" style="height: 10px;">
+                  <i class="fa-solid fa-caret-up position-absolute bottom-0 start-0 p-0"></i>
+                  <i class="fa-solid fa-caret-down position-absolute top-0 start-0 p-0"></i>
+                </div>
+                <span class="ms-3 fw-bold">Phone</span>
+              </button>
+              <button type="button" class="btn p-0" id="btn-phone-up" onclick="Sort.desc('phone')">
+                <div class="d-inline-block position-relative" style="height: 10px;">
+                  <i class="fa-solid fa-caret-up position-absolute bottom-0 start-0 p-0"></i>
+                </div>
+                <span class="ms-3 fw-bold">Phone</span>
+              </button>
+              <button type="button" class="btn p-0" id="btn-phone-down" onclick="Sort.byId('phone')">
+                <div class="d-inline-block position-relative" style="height: 10px;">
+                  <i class="fa-solid fa-caret-down position-absolute top-0 start-0 p-0"></i>
+                </div>
+                <span class="ms-3 fw-bold">Phone</span>
+              </button>
+            </th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="users-table">
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="position-relative" style="padding: 20px;">
+      <button type="button" class="btn btn-primary" onclick="ShowModal.add()"><i class="fa-solid fa-plus"
+          style="color: #ffffff;"></i></button>
+      <div id="pagination" class="position-absolute top-50 end-0 translate-middle-y">
+
+      </div>
+    </div>
+
+    <div class="modal fade" id="userForm" tabindex="-1" aria-labelledby="userForm" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="userFormLabel">User Form</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row mb-3">
+                <label for="name" class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="name" required>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="phone" required>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btnadd" onclick="User.add()">Save Changes</button>
+            <button type="button" class="btn btn-primary" id="btnupdate" onclick="User.update()">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="userDelete" tabindex="-1" aria-labelledby="userDelete" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure?</p>
+            <input type="hidden" id="idDelete" value="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            <button type="button" class="btn btn-primary" id="deleteButton" onclick="User.delete()">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <%- include('./partials/userfooter') %>

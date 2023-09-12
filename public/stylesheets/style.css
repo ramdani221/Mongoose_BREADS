@@ -1,0 +1,12 @@
+body {
+  box-sizing: border-box;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+#btn-name-up, #btn-name-down {
+  display: none;
+}
+
+#btn-phone-up, #btn-phone-down, #btn-deadline-up, #btn-deadline-down {
+  display: none;
+}

@@ -1,0 +1,145 @@
+<%- include('./partials/header') %>
+  <div class="container bg-light rounded-2 px-0 mb-3 border light-border-subtle">
+    <h1 class="text-center p-3">Todo List</h1>
+    <div class="bg-white">
+      <form class="p-3 border-top light-border-subtle">
+        <div class="row mb-3">
+          <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" placeholder="insert your title" id="inputTitle">
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="inputDate" class="col-sm-2 col-form-label">Deadline</label>
+          <div class="col-sm-10">
+            <div class="input-group">
+              <input type="datetime-local" class="form-control rounded-2" aria-label="strDate" id="strDate">
+              <span class="input-group-text bg-white border-0 text-center col-2 d-inline-block">s.d.</span>
+              <input type="datetime-local" class="form-control rounded-2" aria-label="endDate" id="endDate">
+            </div>
+          </div>
+        </div>
+        <fieldset class="row mb-3">
+          <legend class="col-form-label col-sm-2 pt-0">Complete</legend>
+          <div class="col-sm-10">
+            <select class="form-select" aria-label="Default select example" id="completeStat">
+              <option disabled selected>-select complete-</option>
+              <option value="true">Complete</option>
+              <option value="false">Uncomplete</option>
+            </select>
+          </div>
+        </fieldset>
+        <div class="row mb-3">
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-success" id="btn-deadline" onclick="Sort.asc('deadline')">
+              <div class="d-inline-block position-relative m-0" style="height: 10px;">
+                <i class="fa-solid fa-caret-up position-absolute bottom-0 start-0 p-0"></i>
+                <i class="fa-solid fa-caret-down position-absolute top-0 start-0 p-0"></i>
+              </div>
+              <span class="ms-3 fw-bold">Sort By Deadline</span>
+            </button>
+            <button type="button" class="btn btn-success" id="btn-deadline-up" onclick="Sort.desc('deadline')">
+              <div class="d-inline-block position-relative m-0" style="height: 10px;">
+                <i class="fa-solid fa-caret-up position-absolute bottom-0 start-0 p-0"></i>
+              </div>
+              <span class="ms-3 fw-bold">Sort By Deadline</span>
+            </button>
+            <button type="button" class="btn btn-success" id="btn-deadline-down" onclick="Sort._id()">
+              <div class="d-inline-block position-relative m-0" style="height: 10px;">
+                <i class="fa-solid fa-caret-down position-absolute top-0 start-0 p-0"></i>
+              </div>
+              <span class="ms-3 fw-bold">Sort By Deadline</span>
+            </button>
+          </div>
+          <div class="col-sm-10">
+            <div class="input-group">
+              <button class="btn btn-warning rounded-2" type="reset" onclick="Filter.findReset()"><i class="fa-solid fa-rotate"></i></button>
+              &nbsp
+              <button class="btn btn-info rounded-2" type="button" onclick="Filter.find()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="border-bottom border-light-subtle">
+        <div class="input-group mb-3 py-2 px-3 bg-light">
+          <input type="text" class="form-control" placeholder="title" id="todoTitle" aria-label="Recipient's username"
+            aria-describedby="button-addon2">
+          <button class="btn btn-outline-primary rounded-2" type="button" id="button-addon2" onclick="Todo.add()"><i
+              class="fa-solid fa-circle-arrow-down"></i></button>
+        </div>
+        <div id="todos-list">
+        </div>
+      </div>
+    </div>
+
+    <div class="position-relative" style="padding: 20px;">
+      <a class="btn btn-primary" href="http://localhost:3000/"><i class="fa-solid fa-rotate-left"></i></a>
+      <div id="pagination" class="position-absolute top-50 end-0 translate-middle-y">
+
+      </div>
+    </div>
+    
+    <div class="modal fade" id="todoForm" tabindex="-1" aria-labelledby="todoForm" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="todoFormLabel">Update Todo</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row mb-3">
+                <label for="title" class="col-sm-2 col-form-label">Title</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="title" required>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="deadline" class="col-sm-2 col-form-label">Deadline</label>
+                <div class="col-sm-10">
+                  <input type="datetime-local" placeholder="DD MM YYYY" class="form-control" id="deadline" required>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="deadline" class="col-sm-2 col-form-label">Deadline</label>
+                <div class="col-sm-10">
+                  <div class="form-check pt-2">
+                    <input class="form-check-input" type="checkbox" id="complete">
+                    <label class="form-check-label" for="complete">
+                      Done
+                    </label>
+                  </div>   
+                </div>                             
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btnupdate" onclick="Todo.update()">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="todoDelete" tabindex="-1" aria-labelledby="todoDelete" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            <button type="button" class="btn btn-primary" id="deleteButton" onclick="Todo.delete()">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include('./partials/todofooter') %>
+  <script>
+    executorid("<%= userid %>")
+  </script>
