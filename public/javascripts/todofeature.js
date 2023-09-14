@@ -84,7 +84,6 @@ class Todo {
             let html = "";
             let pageNumber = '';
             let pagination = "";
-            console.log(new Date(todos.data[0].deadline).getTime())
 
             todos.data.forEach((value, index) => {
                 html += `
@@ -102,7 +101,7 @@ class Todo {
             });
             for (let i = 1; i <= todos.pages; i++) pageNumber += `<li class="page-item${todos.page == i ? ' active' : ''}"><a class="page-link" onclick="Filter.changePage(${i})">${i}</a></li>`;
 
-            pagination = `<span>Show ${todos.offset + 1} to ${todos.limit} of ${todos.total} entries</span>
+            pagination = `<span>Show ${todos.offset + 1} to ${(Number(todos.limit) + Number(todos.offset)) <= todos.total ? (Number(todos.limit) + Number(todos.offset)) : todos.total } of ${todos.total} entries</span>
             <nav class="d-inline-block">
             <ul class="pagination mx-3 mb-0">
                  ${todos.page == 1 ? '' : `<li class="page-item">
@@ -127,7 +126,6 @@ class Todo {
     static async add() {
         try {
             let title = $("#todoTitle").val()
-            console.log(title, executor)
             const response = await fetch("http://localhost:3000/todos", {
                 method: "POST",
                 headers: {
@@ -147,7 +145,6 @@ class Todo {
             let title = $('#title').val()
             let deadline = $('#deadline').val()
             let complete = $('#complete').prop('checked')
-            console.log(complete)
             const response = await fetch(`http://localhost:3000/todos/${todoId}`, {
                 method: "PUT",
                 headers: {

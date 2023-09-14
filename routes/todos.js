@@ -27,9 +27,6 @@ router.get('/', async function (req, res, next) {
     const pages = Math.ceil(total / limit)
 
     const todos = await Todo.find(params).sort(sort).limit(limit).skip(offset);
-    // console.log(todos.map(item => {
-    //   return  {_id: item._id, title: item.title, complete: item.complete, executor: item.executor, deadline: moment(item.deadline).format('DD-MM-YYYY, h:mm a'), deadlineInput: moment(item.deadline).format('YYYY-MM-DDTh:mm')}
-    // }));
     res.status(200).json({
       data: todos,
       moment,

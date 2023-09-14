@@ -15,7 +15,8 @@ const deleteModal = new bootstrap.Modal(document.getElementById('userDelete'), {
 
 class Filter {
     static setLimit() {
-        limitation = document.getElementById('limitation').value
+        limitation = document.getElementById('limitation').value;
+        page = 1;
         User.list()
     };
 
@@ -120,7 +121,7 @@ class User {
 
             for (let i = 1; i <= users.pages; i++) pageNumber += `<li class="page-item${users.page == i ? ' active' : ''}"><a class="page-link" onclick="Filter.changePage(${i})">${i}</a></li>`;
 
-            pagination = `<span>Show ${users.offset + 1} to ${users.limit} of ${users.total} entries</span>
+            pagination = `<span>Show ${users.offset + 1} to ${(Number(users.limit) + Number(users.offset)) <= users.total ? (Number(users.limit) + Number(users.offset)) : users.total } of ${users.total} entries</span>
             <nav class="d-inline-block">
             <ul class="pagination mx-3 mb-0">
                  ${users.page == 1 ? '' : `<li class="page-item">
